@@ -5,6 +5,6 @@ Rails.application.routes.draw do
   # Just go to localhost:3000/admin/jobs to see
   require 'resque/server'
   mount Resque::Server, at: '/admin/jobs'
-
+  get ':id', to: 'short_urls#show'
   resources :short_urls, only: [:index, :create, :show]
 end

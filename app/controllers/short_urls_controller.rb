@@ -16,6 +16,14 @@ class ShortUrlsController < ApplicationController
   end
 
   def show
+    short_url = ShortUrl.find_by_short_code params[:id]
+    if short_url.present?
+      short_url.click_count += 1
+      short_url.save
+      redirect_to short_url.full_url
+    else
+      render json: {error: 'Url not present!'}, status: 404
+    end
   end
 
 end
