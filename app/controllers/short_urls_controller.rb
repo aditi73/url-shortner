@@ -10,7 +10,7 @@ class ShortUrlsController < ApplicationController
 
   def create
     short_url = ShortUrl.new(full_url: params[:full_url])
-    if short_url.save!
+    if short_url.save
       render json: {short_code: short_url.short_code}, status: 200
     else
       render json: {errors: 'Full url is not a valid url'}, status: 422

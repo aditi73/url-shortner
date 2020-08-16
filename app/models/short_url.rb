@@ -6,7 +6,8 @@ class ShortUrl < ApplicationRecord
   validates_uniqueness_of :short_code, :full_url
 
   #callbacks
-  after_create :short_code!, :update_title!
+  after_create :update_title!
+  after_save :short_code!, if: :saved_change_to_id?
 
   def short_code!
     self.short_code = UrlShortner.generate_short_code(self.id)

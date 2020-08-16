@@ -49,6 +49,7 @@ RSpec.describe ShortUrl, type: :model do
 
     it "fetches the title" do
       short_url.update_title!
+      short_url.reload
       expect(short_url.title).to eq("Frequently Asked Questions | BeenVerified")
     end
 
@@ -58,12 +59,12 @@ RSpec.describe ShortUrl, type: :model do
       # id, let's just manipulate the one we have.
 
       it "has the short_code for id 1001" do
-        short_url.update_column(:id, 1001)
+        short_url.update({id: 1001})
         expect(short_url.short_code).to eq("g9")
       end
 
       it "has the short_code for id for 50" do
-        short_url.update_column(:id, 50)
+        short_url.update({id: 50})
         expect(short_url.short_code).to eq("O")
       end
     end
