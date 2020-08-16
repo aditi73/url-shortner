@@ -1,12 +1,16 @@
 class ShortUrl < ApplicationRecord
 
-  CHARACTERS = [*'0'..'9', *'a'..'z', *'A'..'Z'].freeze
-
+  # validations
   validates_presence_of :full_url
   validate :validate_full_url
   validates_uniqueness_of :short_code, :full_url
 
-  def short_code
+  #callbacks
+  after_create :short_code!
+
+  def short_code!
+    self.short_code = UrlShortner.generate_short_code(self.id)
+    self.save!
   end
 
   def update_title!
