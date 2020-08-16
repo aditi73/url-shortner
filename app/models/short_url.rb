@@ -6,7 +6,7 @@ class ShortUrl < ApplicationRecord
   validates_uniqueness_of :short_code, :full_url
 
   #callbacks
-  after_create :short_code!
+  after_create :short_code!, :update_title!
 
   def short_code!
     self.short_code = UrlShortner.generate_short_code(self.id)
@@ -14,6 +14,7 @@ class ShortUrl < ApplicationRecord
   end
 
   def update_title!
+    UpdateTitleJob.perform_now(self.id)
   end
 
   private
